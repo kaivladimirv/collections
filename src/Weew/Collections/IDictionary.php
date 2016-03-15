@@ -2,9 +2,17 @@
 
 namespace Weew\Collections;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 use Weew\Contracts\IArrayable;
 
-interface IDictionary extends IItemsHolder, IArrayable {
+interface IDictionary extends
+    IItemsHolder,
+    IArrayable,
+    ArrayAccess,
+    IteratorAggregate,
+    Countable {
     /**
      * @param $key
      *

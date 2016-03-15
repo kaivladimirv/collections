@@ -59,4 +59,49 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
             [['id' => 1], ['id' => 2]], $collection->toArray()
         );
     }
+
+    public function test_array_get() {
+        $col = new Collection([1, 2]);
+        $this->assertEquals(1, $col[0]);
+        $this->assertEquals(2, $col[1]);
+    }
+
+    public function test_array_set() {
+        $col = new Collection([1, 2]);
+        $col[0] = 5;
+        $col[4] = 7;
+        $this->assertEquals([0 => 5, 1 => 2, 4 => 7], $col->getItems());
+    }
+
+    public function test_array_exists() {
+        $col = new Collection([1, 2]);
+        $this->assertTrue(isset($col[0]));
+        $this->assertTrue(isset($col[1]));
+        $this->assertFalse(isset($col[2]));
+    }
+
+    public function test_array_unset() {
+        $col = new Collection([1, 2]);
+        unset($col[0]);
+        $this->assertEquals([1 => 2], $col->getItems());
+        unset($col[1]);
+        $this->assertEquals([], $col->getItems());
+    }
+
+    public function test_iterate() {
+        $col = new Collection([1, 2]);
+        $iterate = [];
+
+        foreach ($col as $key => $value) {
+            $iterate[$key] = $value;
+        }
+        $this->assertEquals($iterate, $col->getItems());
+
+        $iterate = [];
+
+        foreach ($col as $key => $value) {
+            $iterate[$key] = $value;
+        }
+        $this->assertEquals($iterate, $col->getItems());
+    }
 }

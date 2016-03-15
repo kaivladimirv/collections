@@ -43,4 +43,52 @@ class DictionaryTest extends PHPUnit_Framework_TestCase {
             ['foo' => 'bar', 'bar' => 'baz', 'baz' => 'foo'], $dict->getItems()
         );
     }
+
+    public function test_count() {
+        $dict = new Dictionary([1, 2, 3]);
+        $this->assertEquals(3, $dict->count());
+    }
+
+    public function test_array_get() {
+        $dict = new Dictionary(['foo' => 'bar', 'baz' => 'yolo']);
+        $this->assertEquals('bar', $dict['foo']);
+    }
+
+    public function test_array_set() {
+        $dict = new Dictionary(['foo' => 'bar']);
+        $dict['baz'] = 'yolo';
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'yolo'], $dict->getItems());
+    }
+
+    public function test_array_unset() {
+        $dict = new Dictionary(['foo' => 'bar', 'baz' => 'yolo']);
+        unset($dict['baz']);
+        $this->assertEquals(['foo' => 'bar'], $dict->getItems());
+    }
+
+    public function test_array_exists() {
+        $dict = new Dictionary(['foo' => 'bar', 'baz' => 'yolo']);
+        $this->assertTrue(isset($dict['foo']));
+        $this->assertTrue(isset($dict['baz']));
+        $this->assertFalse(isset($dict['yolo']));
+    }
+
+    public function test_iterate() {
+        $dict = new Dictionary(['foo' => 'bar', 'baz' => 'yolo']);
+        $iterate = [];
+
+        foreach ($dict as $key => $value) {
+            $iterate[$key] = $value;
+        }
+
+        $this->assertEquals($dict->getItems(), $iterate);
+
+        $iterate = [];
+
+        foreach ($dict as $key => $value) {
+            $iterate[$key] = $value;
+        }
+
+        $this->assertEquals($dict->getItems(), $iterate);
+    }
 }

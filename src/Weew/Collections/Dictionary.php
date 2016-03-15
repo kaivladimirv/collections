@@ -2,6 +2,7 @@
 
 namespace Weew\Collections;
 
+use ArrayIterator;
 use Weew\Contracts\IArrayable;
 
 class Dictionary implements IDictionary {
@@ -98,5 +99,54 @@ class Dictionary implements IDictionary {
         }
 
         return $array;
+    }
+
+    /**
+     * @return int
+     */
+    public function count() {
+        return count($this->items);
+    }
+
+    /**
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function offsetGet($key) {
+        return $this->items[$key];
+    }
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public function offsetSet($key, $value) {
+        $this->items[$key] = $value;
+    }
+
+    /**
+     * @param mixed $key
+     *
+     * @return bool
+     */
+    public function offsetExists($key) {
+        return array_key_exists($key, $this->items);
+    }
+
+    /**
+     * @param mixed $key
+     */
+    public function offsetUnset($key) {
+        if ($this->offsetExists($key)) {
+            unset($this->items[$key]);
+        }
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator() {
+        return new ArrayIterator($this->items);
     }
 }
