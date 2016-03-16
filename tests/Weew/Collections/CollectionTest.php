@@ -104,4 +104,22 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
         }
         $this->assertEquals($iterate, $col->getItems());
     }
+
+    public function test_first() {
+        $col = new Collection([1, 2, 3]);
+        $this->assertEquals(1, $col->first('foo'));
+        $this->assertEquals(1, $col->first());
+
+        $col = new Collection([]);
+        $this->assertEquals('foo', $col->first('foo'));
+    }
+
+    public function test_last() {
+        $col = new Collection([1, 2, 3]);
+        $this->assertEquals(3, $col->last('foo'));
+        $this->assertEquals(3, $col->last());
+
+        $col = new Collection([]);
+        $this->assertEquals('foo', $col->last('foo'));
+    }
 }

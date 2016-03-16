@@ -32,4 +32,18 @@ interface ICollection extends
      * @param $item
      */
     function add($item);
+
+    /**
+     * @param null $default
+     *
+     * @return mixed
+     */
+    function first($default = null);
+
+    /**
+     * @param null $default
+     *
+     * @return mixed
+     */
+    function last($default = null);
 }

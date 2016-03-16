@@ -3,7 +3,6 @@
 namespace Weew\Collections;
 
 use ArrayIterator;
-use Traversable;
 use Weew\Contracts\IArrayable;
 
 class Collection implements ICollection {
@@ -65,6 +64,24 @@ class Collection implements ICollection {
      */
     public function add($item) {
         $this->items[] = $item;
+    }
+
+    /**
+     * @param null $default
+     *
+     * @return mixed
+     */
+    public function first($default = null) {
+        return array_first($this->items, $default);
+    }
+
+    /**
+     * @param null $default
+     *
+     * @return mixed
+     */
+    public function last($default = null) {
+        return array_last($this->items, $default);
     }
 
     /**
