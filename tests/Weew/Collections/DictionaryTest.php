@@ -91,4 +91,16 @@ class DictionaryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($dict->getItems(), $iterate);
     }
+
+    public function test_take() {
+        $dict = new Dictionary(['foo' => 'bar', 'bar' => 'baz']);
+        $this->assertEquals('bar', $dict->take('foo'));
+        $this->assertEquals(['bar' => 'baz'], $dict->toArray());
+    }
+
+    public function test_add() {
+        $dict = new Dictionary(['foo' => 'bar', 'bar' => 'baz']);
+        $dict->add('foo', 'baz');
+        $this->assertEquals(['foo' => ['bar', 'baz'], 'bar' => 'baz'], $dict->toArray());
+    }
 }

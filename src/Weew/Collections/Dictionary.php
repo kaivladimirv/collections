@@ -53,6 +53,24 @@ class Dictionary implements IDictionary {
     }
 
     /**
+     * @param $key
+     * @param null $default
+     *
+     * @return mixed
+     */
+    public function take($key, $default = null) {
+        return array_take($this->items, $key, $default);
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function add($key, $value) {
+        array_add($this->items, $key, $value);
+    }
+
+    /**
      * @param array $items
      */
     public function merge(array $items) {

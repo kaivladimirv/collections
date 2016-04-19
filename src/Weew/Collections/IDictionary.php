@@ -41,6 +41,20 @@ interface IDictionary extends
     function has($key);
 
     /**
+     * @param $key
+     * @param null $default
+     *
+     * @return mixed
+     */
+    function take($key, $default = null);
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    function add($key, $value);
+
+    /**
      * @param array $items
      */
     function merge(array $items);
