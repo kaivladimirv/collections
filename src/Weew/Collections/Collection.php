@@ -1,34 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Weew\Collections;
 
 use ArrayIterator;
 use Weew\Contracts\IArrayable;
 
-class Collection implements ICollection {
-    /**
-     * @var array
-     */
-    protected $items;
+class Collection implements CollectionInterface
+{
+    protected array $items;
 
-    /**
-     * @param array $items
-     */
-    public function __construct(array $items = []) {
+    public function __construct(array $items = [])
+    {
         $this->setItems($items);
     }
 
-    /**
-     * @return array
-     */
-    public function getItems() {
+    public function getItems(): array
+    {
         return $this->items;
     }
 
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items) {
+    public function setItems(array $items): void
+    {
         $this->items = [];
 
         foreach ($items as $item) {
@@ -36,58 +30,40 @@ class Collection implements ICollection {
         }
     }
 
-    /**
-     * @param array $items
-     */
-    public function merge(array $items) {
+    public function merge(array $items): void
+    {
         foreach ($items as $item) {
             $this->add($item);
         }
     }
 
-    /**
-     * @param ICollection $items
-     */
-    public function extend(ICollection $items) {
+    public function extend(CollectionInterface $items): void
+    {
         $this->merge($items->getItems());
     }
 
-    /**
-     * @return int
-     */
-    public function count() {
+    public function count(): int
+    {
         return count($this->items);
     }
 
-    /**
-     * @param $item
-     */
-    public function add($item) {
+    public function add(mixed $item): void
+    {
         $this->items[] = $item;
     }
 
-    /**
-     * @param null $default
-     *
-     * @return mixed
-     */
-    public function first($default = null) {
+    public function first(mixed $default = null): mixed
+    {
         return array_first($this->items, $default);
     }
 
-    /**
-     * @param null $default
-     *
-     * @return mixed
-     */
-    public function last($default = null) {
+    public function last(mixed $default = null): mixed
+    {
         return array_last($this->items, $default);
     }
 
-    /**
-     * @return array
-     */
-    public function toArray() {
+    public function toArray(): array
+    {
         $items = [];
 
         foreach ($this->getItems() as $key => $value) {
@@ -101,45 +77,30 @@ class Collection implements ICollection {
         return $items;
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @return mixed
-     */
-    public function offsetGet($key) {
-        return $this->items[$key];
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->items[$offset];
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function offsetSet($key, $value) {
-        $this->items[$key] = $value;
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->items[$offset] = $value;
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @return bool
-     */
-    public function offsetExists($key) {
-        return array_key_exists($key, $this->items);
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->items);
     }
 
-    /**
-     * @param mixed $key
-     */
-    public function offsetUnset($key) {
-        if ($this->offsetExists($key)) {
-            unset($this->items[$key]);
+    public function offsetUnset(mixed $offset): void
+    {
+        if ($this->offsetExists($offset)) {
+            unset($this->items[$offset]);
         }
     }
 
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator
+    {
         return new ArrayIterator($this->items);
     }
 }

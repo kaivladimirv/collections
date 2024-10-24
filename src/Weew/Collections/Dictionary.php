@@ -1,111 +1,77 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Weew\Collections;
 
 use ArrayIterator;
 use Weew\Contracts\IArrayable;
 
-class Dictionary implements IDictionary {
-    /**
-     * @var array
-     */
-    protected $items;
+class Dictionary implements DictionaryInterface
+{
+    protected array $items;
 
-    /**
-     * @param array $items
-     */
-    public function __construct(array $items = []) {
+    public function __construct(array $items = [])
+    {
         $this->setItems($items);
     }
 
-    /**
-     * @param $key
-     * @param null $default
-     *
-     * @return mixed
-     */
-    public function get($key, $default = null) {
+    public function get($key, mixed $default = null): mixed
+    {
         return array_get($this->items, $key, $default);
     }
 
-    /**
-     * @param $key
-     * @param mixed $value
-     */
-    public function set($key, $value) {
+    public function set($key, mixed $value): void
+    {
         array_set($this->items, $key, $value);
     }
 
-    /**
-     * @param $key
-     */
-    public function remove($key) {
+    public function remove($key): void
+    {
         array_remove($this->items, $key);
     }
 
-    /**
-     * @param $key
-     *
-     * @return bool
-     */
-    public function has($key) {
+    public function has($key): bool
+    {
         return array_has($this->items, $key);
     }
 
-    /**
-     * @param $key
-     * @param null $default
-     *
-     * @return mixed
-     */
-    public function take($key, $default = null) {
+    public function take($key, mixed $default = null): mixed
+    {
         return array_take($this->items, $key, $default);
     }
 
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function add($key, $value) {
+    public function add($key, mixed $value): void
+    {
         array_add($this->items, $key, $value);
     }
 
-    /**
-     * @param array $items
-     */
-    public function merge(array $items) {
+    public function merge(array $items): void
+    {
         foreach ($items as $key => $value) {
             $this->set($key, $value);
         }
     }
 
-    /**
-     * @param IDictionary $items
-     */
-    public function extend(IDictionary $items) {
+    public function extend(DictionaryInterface $items): void
+    {
         foreach ($items->getItems() as $key => $value) {
             $this->set($key, $value);
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getItems() {
+    public function getItems(): array
+    {
         return $this->items;
     }
 
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items) {
+    public function setItems(array $items): void
+    {
         $this->items = $items;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray() {
+    public function toArray(): array
+    {
         $array = [];
 
         foreach ($this->items as $key => $value) {
@@ -119,52 +85,35 @@ class Dictionary implements IDictionary {
         return $array;
     }
 
-    /**
-     * @return int
-     */
-    public function count() {
+    public function count(): int
+    {
         return count($this->items);
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @return mixed
-     */
-    public function offsetGet($key) {
-        return $this->items[$key];
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->items[$offset];
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function offsetSet($key, $value) {
-        $this->items[$key] = $value;
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->items[$offset] = $value;
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @return bool
-     */
-    public function offsetExists($key) {
-        return array_key_exists($key, $this->items);
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->items);
     }
 
-    /**
-     * @param mixed $key
-     */
-    public function offsetUnset($key) {
-        if ($this->offsetExists($key)) {
-            unset($this->items[$key]);
+    public function offsetUnset(mixed $offset): void
+    {
+        if ($this->offsetExists($offset)) {
+            unset($this->items[$offset]);
         }
     }
 
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator
+    {
         return new ArrayIterator($this->items);
     }
 }
